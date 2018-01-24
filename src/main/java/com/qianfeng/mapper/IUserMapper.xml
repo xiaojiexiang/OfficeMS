@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qianfeng.mapper.IUserMapper">
+	<!-- 登录查询 -->
+	<select id="findByName" parameterType="com.qianfeng.pojo.po.User" resultType="com.qianfeng.pojo.po.User">
+		SELECT * FROM user WHERE id=#{id} AND password=#{password}
+	</select> 
+	<select id="selectUserById" parameterType="Integer" resultType="com.qianfeng.pojo.po.User">
+		SELECT * FROM user WHERE id=#{id}
+	</select> 
+	<!-- 查询所有admin -->
+	<select id="selectAdminUser"  resultMap="userList">
+		SELECT * FROM user WHERE isadmin=1
+	</select> 
+	<!-- 修改信息 -->
+	<update id="updateUserInfo" parameterType="com.qianfeng.pojo.po.User" >
+		UPDATE user 
+		SET 
+		username=#{username},age=#{age},gender=#{gender},phone=#{phone},address=#{address} 
+		WHERE 
+		id=#{id}
+	</update>
+	<!--配置一个resultMap 指定返回的类型 -->
+	<resultMap type="com.qianfeng.pojo.po.User" id="userList">
+		<id column="id" property="id" />
+		<result column="username" property="username" />
+		<result column="password" property="password" />
+		<result column="gender" property="gender" />
+		<result column="age" property="age" />
+		<result column="phone" property="phone" />
+		<result column="address" property="address" />
+		<result column="isadmin" property="isadmin" />
+	</resultMap>
+	<!-- 返回一个list的写法 -->
+	<select id="selectAll" resultMap="userList">
+		SELECT * FROM user
+	</select>
+	
+	<!--配置一个resultMap 指定返回的类型 -->
+	<resultMap type="com.qianfeng.pojo.po.Mail" id="mailList">
+		<id column="mrid" property="mrid" />
+		<result column="uid" property="uid" />
+		<result column="mailtitle" property="mailtitle" />
+		<result column="mailcontent" property="mailcontent" />
+		<result column="mailstate" property="mailstate" />
+		<result column="mailtime" property="mailtime" />
+		<result column="mailsource" property="mailsource" />
+	</resultMap>
+	<!-- 查询所有收件箱中该用户的邮件 -->
+	<select id="selectMailFromRepo" parameterType="Integer" resultMap="mailList">
+		SELECT * FROM mailrepo WHERE uid=#{id}
+	</select>
+	<!-- 根据mrid从收件箱中查找邮件 -->
+	<select id="selectMailByMrid" parameterType="Integer" resultType="com.qianfeng.pojo.po.Mail">
+		SELECT * FROM mailrepo WHERE mrid=#{mrid}
+	</select>
+	<!-- 将邮件修改为已读状态1 -->
+	<update id="updateMailState" parameterType="Integer">
+		UPDATE mailrepo SET mailstate=1 WHERE mrid=#{mrid};
+	</update>
+	<!-- 根据mrid将邮件从收件箱中删除 -->
+	<delete id="deleteMailRepoById" parameterType="Integer" >
+		DELETE FROM mailrepo WHERE mrid=#{mrid}
+	</delete>
+	<!-- 将查找到的要删除的邮件,添加到垃圾箱中 -->
+	<insert id="insertMailGarage" parameterType="com.qianfeng.pojo.po.Mail">
+		INSERT INTO 
+		mailgarage 
+		VALUES
+		(#{mailtitle},#{mailcontent},#{mailstate},#{mailtime},#{uid},#{mrid},#{mailsource},#{mailfile})
+	</insert>
+	<!-- 查询所有垃圾箱中该用户的邮件 -->
+	<select id="selectMailFromGara" parameterType="Integer" resultMap="mailList">
+		SELECT * FROM mailgarage WHERE uid=#{id}
+	</select>
+	<!-- 根据mgid将邮件从辣鸡箱中删除 -->
+	<delete id="deleteMailGaraById" parameterType="Integer" >
+		DELETE FROM mailgarage WHERE mgid=#{mgid}
+	</delete>
+	<!-- 根据mgid从垃圾箱中查找需要还原的邮件 -->
+	<select id="selectMailByMgid" parameterType="Integer" resultType="com.qianfeng.pojo.po.Mail">
+		SELECT * FROM mailgarage WHERE mgid=#{mgid}
+	</select>
+	<!-- 将查找到的需要还原的邮件,添加到收件箱中 -->
+	<insert id="insertMailRepo" parameterType="com.qianfeng.pojo.po.Mail">
+		INSERT INTO 
+		mailrepo 
+		VALUES
+		(#{mailtitle},#{mailcontent},#{mailstate},#{mailtime},#{uid},#{mgid},#{mailsource},#{mailfile})
+	</insert>
+	
+	<!--配置一个resultMap 指定返回的类型  leave-->
+	<resultMap type="com.qianfeng.pojo.po.Leave" id="leaveList">
+		<id column="leaveid" property="leaveid"/>
+		<result column="username" property="username" />
+		<result column="begintime" property="begintime" />
+		<result column="endtime" property="endtime" />
+		<result column="day" property="day" />
+		<result column="isapprove" property="isapprove" />
+		<result column="reason" property="reason" />
+		<result column="uid" property="uid" />
+		<result column="auditer" property="auditer" />
+	</resultMap>
+	<!-- 返回一个leaveList的写法 -->
+	<select id="selectAllLeave" resultMap="leaveList">
+		SELECT * FROM toleave
+	</select>
+	<select id="selectLeaveByAdminId" parameterType="Integer" resultMap="leaveList">
+		SELECT * FROM toleave WHERE auditer=#{id}
+	</select>
+	
+	<!-- 返回当前用户休假申请信息的写法 -->
+	<select id="selectLeaveInfoById" parameterType="Integer" resultType="com.qianfeng.pojo.po.Leave">
+		SELECT * FROM toleave WHERE uid=#{uid}
+	</select>
+	
+	<!-- 将提交的申请插入到申请列表中 -->
+	<insert id="insertLeaveInfo" parameterType="com.qianfeng.pojo.po.Leave">
+		INSERT INTO 
+		toleave
+		(username,begintime,endtime,day,reason,uid,leaveid,auditer)
+		VALUES
+		(#{username},#{begintime},#{endtime},#{day},#{reason},#{uid},#{leaveid},#{auditer})
+	</insert>
+	
+	<!-- 根据leaveid查询休假申请的详情 -->
+	<select id="selectLeaveDetailById" parameterType="Integer" resultType="com.qianfeng.pojo.po.Leave">
+		SELECT * FROM toleave WHERE leaveid=#{leaveid}
+	</select>
+	<!-- 根据leaveid将审核的申请修改为通过状态 1-->
+	<update id="updateApproveLeave" parameterType="Integer">
+		UPDATE toleave SET isapprove=1 WHERE leaveid=#{leaveid};
+	</update>
+	<!-- 根据leaveid将审核的申请修改为拒绝状态2 -->
+	<update id="updateRefuseLeave" parameterType="Integer">
+		UPDATE toleave SET isapprove=2 WHERE leaveid=#{leaveid};
+	</update>
+	<update id="updateUserAccount">
+		UPDATE user 
+		SET 
+		username=#{username},password=#{password} 
+		WHERE 
+		id=#{id}
+	</update>
+	<insert id="insertUser" parameterType="com.qianfeng.pojo.po.User">
+		INSERT INTO 
+		user 
+		(id,username,password,gender,age,phone,address
+		<if test="isadmin!=null">
+		,isadmin
+		</if>
+		)
+		VALUES 
+		(#{id},#{username},#{password},#{gender},#{age},#{phone},#{address}
+		<if test="isadmin!=null">
+		,#{isadmin}
+		</if>
+		)
+	</insert>
+	<!-- private Integer id;
+	private String username;
+	private String password;
+	private Integer gender;
+	private Integer age;
+	private String phone;
+	private String address;
+	private Integer isadmin; -->
+	
+	<!-- 	private Integer uid;
+	private String mailtitle;
+	private String mailcontent;
+	private String mailstate;
+	private Date mailtime; -->
+	
+	<!-- private String username;
+	private String begintime;
+	private String endtime;
+	private Integer day;
+	private Integer isapprove;
+	private String reason;
+	private Integer uid;
+	private Integer leaveid;
+	 -->
+</mapper>
