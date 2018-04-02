@@ -58,9 +58,9 @@ label {
 					<div class="pages">
 						<table width="90%" border="0" cellspacing="0" cellpadding="0">
 							<tr>
-								<td align="right" width="30%">用户名：</td>
-								<td align="left"><input type="text" name="username"
-									value="${sessionUser.username}" /><span
+								<td align="right" width="30%">工号：</td>
+								<td align="left"><input type="text" name="id"
+									value="${sessionUser.id}" readonly="readonly" /><span
 									style="color: red;">*</span><input type="hidden" name="id"
 									value="${sessionUser.id}" /></td>
 							</tr>

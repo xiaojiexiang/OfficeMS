@@ -137,10 +137,10 @@
 	<update id="updateRefuseLeave" parameterType="Integer">
 		UPDATE toleave SET isapprove=2 WHERE leaveid=#{leaveid};
 	</update>
-	<update id="updateUserAccount">
+	<update id="updateUserAccount" parameterType="com.qianfeng.pojo.po.User">
 		UPDATE user 
 		SET 
-		username=#{username},password=#{password} 
+		password=#{password} 
 		WHERE 
 		id=#{id}
 	</update>
@@ -159,6 +159,10 @@
 		</if>
 		)
 	</insert>
+	
+	<select id="findMaxId" resultType="Integer">
+		SELECT MAX(id) FROM user
+	</select>
 	<!-- private Integer id;
 	private String username;
 	private String password;

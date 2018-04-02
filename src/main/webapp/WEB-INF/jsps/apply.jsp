@@ -73,7 +73,7 @@ label {
 	       aDate  =  sDate2.split("-")  
 	       oDate2  =  new  Date(aDate[1]  +  '-'  +  aDate[2]  +  '-'  +  aDate[0])  
 	       iDays  =  parseInt(Math.abs(oDate1 - oDate2)/1000/60/60/24)    //把相差的毫秒数转换为天数  
-	       return  iDays  
+	       return  iDays+1;  
 	}
 </script>
 </head>

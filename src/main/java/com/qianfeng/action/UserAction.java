@@ -27,12 +27,12 @@ import com.qianfeng.pojo.po.Mail;
 import com.qianfeng.pojo.po.User;
 import com.qianfeng.service.IUserService;
 
-@Controller
+@Controller 
 @RequestMapping(value = "/user")
 public class UserAction {
 	@Autowired
 	IUserService service;
-
+ 
 	/*
 	 * 转到登录页面
 	 */
@@ -76,10 +76,6 @@ public class UserAction {
 		return "index";
 	}
 
-	@RequestMapping("/infoUser")
-	public String infoUser() {
-		return "infoUser";
-	}
 
 	@RequestMapping("/mailSend.do")
 	public String mailSend(HttpSession session) {
@@ -87,7 +83,7 @@ public class UserAction {
 		session.setAttribute("userList", userList);
 		return "mailSend";
 	}
-
+	//发送邮件
 	@RequestMapping("/toSend.do")
 	@ResponseBody
 	public void send(String mailTitle, String mailContent, String sendUname, Integer sendId,
@@ -285,6 +281,11 @@ public class UserAction {
 	// 添加账号页面。
 	@RequestMapping("/addAccount.do")
 	public String addAccount(Model model) {
+		Integer maxId = service.findMaxId();
+		model.addAttribute("newId", maxId+1);
+		/*SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String cTime = sdf.format(System.currentTimeMillis());
+		String str = cTime.replaceAll("-", "").replaceAll(":","");*/
 		return "userAccountAdd";
 	}
 

@@ -48,9 +48,9 @@
 						<div class="pages">
 						<table width="90%" border="0" cellspacing="0" cellpadding="0">
 							<tr>
-								<td align="right" width="30%">用户名：</td>
+								<td align="right" width="30%">工号：</td>
 								<td align="left"><input type="text" name="username"
-									value="${sessionUser.username}" readonly="readonly"  /></td>
+									value="${sessionUser.id}" readonly="readonly"  /></td>
 							</tr>
 							<tr>
 								<td align="right" width="30%">密码：</td>

@@ -9,7 +9,7 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath:spring-*.xml</param-value>
 	</context-param>
-
+ 
 	<!-- 中文乱码过滤器，来自于spring框架,建议放到DispatcherServlet之前 -->
 	<!-- 一般用来解决post类型中文乱码问题 -->
 	<!-- get类型中文乱码问题怎么解决：1，tomcat maven 插件 2，在本地/服务器上的tomcat配置中改 -->

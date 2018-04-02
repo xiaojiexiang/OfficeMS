@@ -5,7 +5,7 @@ import java.util.List;
 import com.qianfeng.pojo.po.Leave;
 import com.qianfeng.pojo.po.Mail;
 import com.qianfeng.pojo.po.User;
-
+ 
 public interface IUserService {
 	User findByName(User user);
 	User selectUserById(Integer id);
@@ -30,4 +30,5 @@ public interface IUserService {
 	void updateRefuseLeave(Integer leaveid);
 	void updateUserAccount(User user);
 	void insertUser(User user);
+	Integer findMaxId();
 }

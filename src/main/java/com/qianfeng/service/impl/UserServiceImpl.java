@@ -1,16 +1,17 @@
 package com.qianfeng.service.impl;
-
+ 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.qianfeng.mapper.IUserMapper;
 import com.qianfeng.pojo.po.Leave;
 import com.qianfeng.pojo.po.Mail;
 import com.qianfeng.pojo.po.User;
 import com.qianfeng.service.IUserService;
-
+@Transactional
 @Service
 public class UserServiceImpl implements IUserService {
 
@@ -108,6 +109,10 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public void insertUser(User user) {
 		userMapper.insertUser(user);
+	}
+	@Override
+	public Integer findMaxId() {
+		return userMapper.findMaxId();
 	}
 
 }

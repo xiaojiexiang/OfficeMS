@@ -53,13 +53,12 @@ label {
 				</html>
 
 				<div class="action">
-					<div class="t">编辑信息</div>
+					<div class="t">添加用户</div>
 					<div class="pages">
 						<table width="90%" border="0" cellspacing="0" cellpadding="0">
 							<tr>
 								<td align="right" width="30%">工号：</td>
-								<td align="left"><input type="text" name="id" /><span
-									style="color: red;">*</span></td>
+								<td align="left"><input type="text" name="id" value="${newId}" readonly="readonly"/><span style="color: red;">*</span></td>
 							</tr>
 							<tr>
 								<td align="right" width="30%">密码：</td>
@@ -84,7 +83,7 @@ label {
 							</tr>
 							<tr>
 								<td align="right" width="30%">手机：</td>
-								<td align="left"><input type="text" name="phone" onblur="vailPhone(this)" /><span
+								<td align="left"><input type="text" name="phone" /><span
 									style="color: red;">*</span></td>
 							</tr>
 							<tr>
@@ -117,7 +116,7 @@ label {
 	function vailPhone(phone){
 		var myreg = /^(((13[0-9]{1})|(14[0-9]{1})|(17[0]{1})|(15[0-3]{1})|(15[5-9]{1})|(18[0-9]{1}))+\d{8})$/;
 		if(!myreg.test(phone)){
-            "请输入正确的手机号"
+            document.getElementById("sp1").innerHTML="请输入正确的手机号";
         }
 	}
 	//表单校验
@@ -160,5 +159,6 @@ label {
 			
 		});
 	})
+	
 </script>
 </html>

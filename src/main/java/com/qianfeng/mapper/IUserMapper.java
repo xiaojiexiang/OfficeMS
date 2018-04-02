@@ -32,4 +32,5 @@ public interface IUserMapper {
 	void updateRefuseLeave(Integer leaveid);
 	void updateUserAccount(User user);
 	void insertUser(User user);
+	Integer findMaxId();
 }
